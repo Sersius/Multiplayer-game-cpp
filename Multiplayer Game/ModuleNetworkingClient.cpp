@@ -104,6 +104,8 @@ void ModuleNetworkingClient::onPacketReceived(const InputMemoryStream &packet, c
 {
 	// TODO(you): UDP virtual connection lab session
 
+	timeSinceLastPacket = Time.time;
+
 	uint32 protoId;
 	packet >> protoId;
 	if (protoId != PROTOCOL_ID) return;
@@ -142,6 +144,19 @@ void ModuleNetworkingClient::onUpdate()
 
 	// TODO(you): UDP virtual connection lab session
 
+	timeSinceLastPacket += Time.deltaTime;
+	timeSinceLastPing += Time.deltaTime;
+
+	if (timeSinceLastPing >= PING_INTERVAL_SECONDS)
+	{
+		timeSinceLastPing = 0.0f;
+
+		OutputMemoryStream packet;
+		packet << PROTOCOL_ID;
+		packet << ClientMessage::Ping;
+
+		sendPacket(packet, serverAddress);
+	}
 
 	if (state == ClientState::Connecting)
 	{
@@ -163,6 +178,9 @@ void ModuleNetworkingClient::onUpdate()
 	else if (state == ClientState::Connected)
 	{
 		// TODO(you): UDP virtual connection lab session
+
+		if (timeSinceLastPacket < DISCONNECT_TIMEOUT_SECONDS)
+			disconnect();
 
 		// Process more inputs if there's space
 		if (inputDataBack - inputDataFront < ArrayCount(inputData))

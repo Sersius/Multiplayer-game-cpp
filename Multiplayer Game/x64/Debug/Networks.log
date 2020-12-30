@@ -1,2 +1,11 @@
-﻿  UnityBuild.cpp
-  Networks.vcxproj -> C:\Users\SEGOR\OneDrive\Escritorio\Multiplayer Game\x64\Debug\Networks.exe
+﻿  stdafx.cpp
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_dx11.cpp
+  imgui_impl_win32.cpp
+  imgui_widgets.cpp
+  stb_image.cpp
+  Generando código...
+  UnityBuild.cpp
+  Networks.vcxproj -> C:\Users\SEGOR\OneDrive\Documentos\GitHub\Multiplayer-game-cpp\Multiplayer Game\x64\Debug\Networks.exe
