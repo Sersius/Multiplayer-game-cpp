@@ -1,0 +1,2 @@
+C:\Users\SEGOR\OneDrive\Escritorio\Multiplayer Game\x64\Debug\Networks.exe
+C:\Users\SEGOR\OneDrive\Escritorio\Multiplayer Game\x64\Debug\Networks.pdb
