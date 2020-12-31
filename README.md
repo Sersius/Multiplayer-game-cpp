@@ -13,3 +13,5 @@ The controls are
   UDP virtual connection by Sergio Gómez. This is complete with no bugs.
   
   Replication manager by Sergio Gómez. Bugs: The player drop conection because some socket
+
+  Delivery manager by Aleix Castillo. Bugs: Deletage not implemented
