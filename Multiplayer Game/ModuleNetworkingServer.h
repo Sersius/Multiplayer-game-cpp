@@ -55,6 +55,12 @@ private:
 		double timeSinceLastPacket = 0.0f;
 
 		// TODO(you): World state replication lab session
+
+		ReplicationManagerServer repServer;
+
+		float timeSinceLastRep = 0.0f;
+		float maxTimeReplication = 0.01f;
+
 		// TODO(you): Reliability on top of UDP lab session
 
 		uint32 nextExpectedInputSequenceNumber = 0;
