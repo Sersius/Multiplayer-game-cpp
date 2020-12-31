@@ -137,8 +137,11 @@ void ModuleNetworkingClient::onPacketReceived(const InputMemoryStream &packet, c
 			timeSinceLastPing = 0.0f;
 
 		else if (message == ServerMessage::Replication)
+		{
 			repClient.read(packet);
 
+			packet >> inputDataFront;
+		}
 		// TODO(you): Reliability on top of UDP lab session
 
 	}
