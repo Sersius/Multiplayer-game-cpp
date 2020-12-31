@@ -104,7 +104,7 @@ void ModuleNetworkingClient::onPacketReceived(const InputMemoryStream &packet, c
 {
 	// TODO(you): UDP virtual connection lab session
 
-	timeSinceLastPacket = Time.time;
+	timeSinceLastPacket = 0.0f;
 
 	uint32 protoId;
 	packet >> protoId;
@@ -133,10 +133,14 @@ void ModuleNetworkingClient::onPacketReceived(const InputMemoryStream &packet, c
 	{
 		// TODO(you): World state replication lab session
 
-		if (message == ServerMessage::Replication)
+		if (message == ServerMessage::Ping)
+			timeSinceLastPing = 0.0f;
+
+		else if (message == ServerMessage::Replication)
 			repClient.read(packet);
 
 		// TODO(you): Reliability on top of UDP lab session
+
 	}
 }
 
@@ -152,13 +156,13 @@ void ModuleNetworkingClient::onUpdate()
 
 	if (timeSinceLastPing >= PING_INTERVAL_SECONDS)
 	{
-		timeSinceLastPing = 0.0f;
-
 		OutputMemoryStream packet;
 		packet << PROTOCOL_ID;
 		packet << ClientMessage::Ping;
 
 		sendPacket(packet, serverAddress);
+
+		timeSinceLastPing = 0.0f;
 	}
 
 	if (state == ClientState::Connecting)
@@ -220,7 +224,7 @@ void ModuleNetworkingClient::onUpdate()
 			}
 
 			// Clear the queue
-			inputDataFront = inputDataBack;
+			//inputDataFront = inputDataBack;
 
 			sendPacket(packet, serverAddress);
 		}

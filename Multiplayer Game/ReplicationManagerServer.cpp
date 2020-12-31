@@ -6,7 +6,6 @@
 void ReplicationManagerServer::create(uint32 networkId)
 {
 	ReplicationCommand replicate;
-
 	replicate.action = ReplicationAction::Create;
 	replicate.networkId = networkId;
 
@@ -18,7 +17,7 @@ void ReplicationManagerServer::create(uint32 networkId)
 			created = true;
 	}
 
-	if (created == false)
+	if (!created)
 		replications.push_back(replicate);
 }
 
@@ -37,7 +36,7 @@ void ReplicationManagerServer::update(uint32 networkId)
 			created = true;
 	}
 
-	if (created == false)
+	if (!created)
 		replications.push_back(replicate);
 }
 
@@ -56,7 +55,7 @@ void ReplicationManagerServer::destroy(uint32 networkId)
 			created = true;
 	}
 
-	if (created == false)
+	if (!created)
 		replications.push_back(replicate);
 }
 
@@ -65,9 +64,8 @@ void ReplicationManagerServer::write(OutputMemoryStream &packet)
 	for (int i = 0; i < replications.size(); i++)
 	{
 		ReplicationCommand replicate = replications[i];
-
-		packet << replicate.action;
 		packet << replicate.networkId;
+		packet << replicate.action;
 
 		if (replicate.action == ReplicationAction::Create || replicate.action == ReplicationAction::Update)
 		{

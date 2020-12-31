@@ -5,8 +5,8 @@
 
 void ReplicationManagerClient::read(const InputMemoryStream& packet)
 {
-	while (packet.RemainingByteCount() > sizeof(uint32))
-	{
+	while (packet.RemainingByteCount() > 0)
+	{		
 		uint32 networkId;
 		ReplicationAction action;
 
@@ -65,7 +65,7 @@ void ReplicationManagerClient::read(const InputMemoryStream& packet)
 					{
 						gameObject->collider = App->modCollision->addCollider(ColliderType::Laser, gameObject);
 						gameObject->collider->isTrigger = true;
-
+						gameObject->sprite->order = 1;
 					}
 
 					App->modLinkingContext->registerNetworkGameObjectWithNetworkId(gameObject, networkId);
@@ -102,7 +102,6 @@ void ReplicationManagerClient::read(const InputMemoryStream& packet)
 				}
 				else
 				{
-
 					gameObject = Instantiate();
 
 					gameObject->position = position;
@@ -110,7 +109,7 @@ void ReplicationManagerClient::read(const InputMemoryStream& packet)
 					gameObject->size = size;
 
 					gameObject->sprite = App->modRender->addSprite(gameObject);
-
+					gameObject->sprite->order = 5;
 
 					switch (gameObjectType)
 					{
@@ -142,8 +141,6 @@ void ReplicationManagerClient::read(const InputMemoryStream& packet)
 				Destroy(gameObject);
 			}
 		}
-			break;
-		default:
 			break;
 		}
 	}

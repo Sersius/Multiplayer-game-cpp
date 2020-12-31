@@ -127,11 +127,10 @@ void ModuleNetworkingServer::onPacketReceived(const InputMemoryStream &packet, c
 					App->modLinkingContext->getNetworkGameObjects(networkGameObjects, &networkGameObjectsCount);
 					for (uint16 i = 0; i < networkGameObjectsCount; ++i)
 					{
-						if (networkGameObjects[i]->id == proxy->gameObject->id)
-							continue;
+						GameObject* gameObject = networkGameObjects[i];
 
 						// TODO(you): World state replication lab session
-						proxy->repServer.create(networkGameObjects[i]->networkId);
+						proxy->repServer.create(gameObject->networkId);
 					}
 				}		
 			}
@@ -187,6 +186,11 @@ void ModuleNetworkingServer::onPacketReceived(const InputMemoryStream &packet, c
 
 		// TODO(you): UDP virtual connection lab session
 
+		else if (message == ClientMessage::Ping)
+		{
+			timeSinceLastPing = 0.0f;
+		}
+
 		if (proxy != nullptr)
 			proxy->timeSinceLastPacket = Time.time;
 	}
@@ -237,7 +241,7 @@ void ModuleNetworkingServer::onUpdate()
 
 				// TODO(you): World state replication lab session
 
-				if (clientProxy.timeSinceLastRep >= clientProxy.maxTimeReplication) {
+				if (timeSinceLastRep >= maxTimeReplication) {
 
 					OutputMemoryStream packet;
 					packet << PROTOCOL_ID;
@@ -255,6 +259,11 @@ void ModuleNetworkingServer::onUpdate()
 
 		if (timeSinceLastPing >= PING_INTERVAL_SECONDS)
 			timeSinceLastPing = 0.0f;
+		timeSinceLastPing += Time.deltaTime;
+
+		if (timeSinceLastRep >= maxTimeReplication)
+			timeSinceLastRep = 0.0f;
+		timeSinceLastRep += Time.deltaTime;
 	}
 }
 

@@ -58,9 +58,6 @@ private:
 
 		ReplicationManagerServer repServer;
 
-		float timeSinceLastRep = 0.0f;
-		float maxTimeReplication = 0.01f;
-
 		// TODO(you): Reliability on top of UDP lab session
 
 		uint32 nextExpectedInputSequenceNumber = 0;
@@ -131,6 +128,9 @@ private:
 
 
 	// TODO(you): UDP virtual connection lab session
+
+	float timeSinceLastRep = 0.0f;
+	float maxTimeReplication = 0.01f;
 
 	float timeSinceLastPing = 0.0f;
 };
